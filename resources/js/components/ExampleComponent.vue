@@ -6,7 +6,11 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        Cantidad de actividades: {{ dates }}
+                    </div>
+                    <div class="card-body" v-for="(dateMonth, index) in datesMonth" :key="index">
+                        Fecha de inicio: {{ dateMonth.start_date }} Fecha de fin: {{ dateMonth.end_date }} 
+                        Total de actividades desde vue: {{ datesMonth.length }}
                     </div>
                 </div>
             </div>
@@ -16,8 +20,19 @@
 
 <script>
     export default {
+        data(){
+            return {
+                dates: '',
+                datesMonth: [],
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            axios.get('/dates')
+                .then( res => {
+                    // console.log(res.data);
+                    this.dates = res.data.dates
+                    this.datesMonth = res.data.datesMonth
+                })
         }
     }
 </script>
